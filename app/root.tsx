@@ -8,6 +8,7 @@ import {
 import type { LinksFunction } from "@remix-run/node";
 
 import "./tailwind.css";
+import { Skeleton } from "./components/ui/skeleton";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -45,5 +46,20 @@ export default function App() {
 }
 
 export function HydrateFallback() {
-  return <p>Loading...</p>;
+  return <div className="w-full h-screen flex">
+    <Skeleton className="rounded-none w-[224px] h-full p-4 flex flex-col items-center justify-between">
+      <div className="flex flex-col gap-2">
+        <Skeleton className="rounded-md w-[199px] h-[32px]" />
+        <Skeleton className="rounded-md w-[199px] h-[180px]" />
+      </div>
+      <div className="flex flex-col gap-2">
+        <Skeleton className="rounded-md w-[199px] h-[220px]" />
+        <Skeleton className="rounded-md w-[199px] h-[140px]" />
+      </div>
+    </Skeleton>
+    <Skeleton className="rounded-none ml-0.5 w-full h-full p-4 space-y-8">
+      <Skeleton className="h-[48px] w-full" />
+      <Skeleton className="h-[533px] w-full" />
+    </Skeleton>
+  </div>;
 }
