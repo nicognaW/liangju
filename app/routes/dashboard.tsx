@@ -11,8 +11,8 @@ import { navTitles } from "~/truths";
 export default function Page() {
   const location = useLocation();
 
-  if (!location.pathname.startsWith("/dashboard/")) {
-    throw new Error("location.path does not start with \"/dashboard/\" under dashboard route, this should never happened");
+  if (!location.pathname.startsWith("/dashboard")) {
+    throw new Error("location.path does not start with \"/dashboard\" under dashboard route, this should never happened");
   }
 
   return (
@@ -23,7 +23,7 @@ export default function Page() {
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <h2 className="truncate font-light tracking-wide text-xl">{
-              navTitles[location.pathname] ?? location.pathname.substring(location.pathname.indexOf("/dashboard/") + 11)
+              navTitles[location.pathname] ?? location.pathname.substring(location.pathname.indexOf("/dashboard") + 10)
             }</h2>
           </div>
         </header>
