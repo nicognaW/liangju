@@ -11,6 +11,7 @@ import {
 } from "~/components/ui/sidebar"
 import { navMain, navSecondary, user } from "~/truths"
 
+// TODO: Sidebar definitely need more works
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar variant="inset" {...props}>
