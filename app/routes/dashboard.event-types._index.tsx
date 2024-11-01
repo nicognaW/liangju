@@ -40,7 +40,7 @@ export default function Page() {
                   <Badge className="font-medium inline-flex items-center justify-center rounded gap-x-1 py-1 px-1.5 text-xs leading-3 bg-sidebar-accent text-sidebar-accent-foreground" variant="secondary">
                     <Clock className="w-3 h-3" />
                     <span>
-                      {item.duration}m0
+                      {item.duration}m
                     </span>
                   </Badge>
                 </div>
