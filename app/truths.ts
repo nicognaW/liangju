@@ -1,4 +1,4 @@
-import { Calendar, Copy, ExternalLink, Frame, Link, LucideIcon, Settings } from "lucide-react";
+import { Calendar, Copy, ExternalLink, Link, LucideIcon, Settings } from "lucide-react";
 
 export const navTitles: {
   [K in typeof navMain[number]['url']]: string;

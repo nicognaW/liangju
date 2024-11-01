@@ -1,5 +1,5 @@
 
-import { Links, Meta, Outlet, Scripts, useNavigate, useSearchParams } from "@remix-run/react";
+import { Links, useNavigate, useSearchParams } from "@remix-run/react";
 import { useEffect } from "react";
 
 export function links() {
@@ -18,7 +18,7 @@ export default function Index() {
     if (searchParams.get("passcode") === "114514") {
       navigate("/dashboard")
     }
-  }, [searchParams])
+  }, [searchParams, navigate])
 
   return <div className="container font-['Helvetica Neue,Helvetica,Arial,sans-serif']" style={{ "marginTop": "9%" }}>
     <Links />

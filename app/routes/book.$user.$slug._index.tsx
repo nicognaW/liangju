@@ -1,4 +1,3 @@
-import { EventType } from "./dashboard.event-types._index";
 import { Calendar } from "~/components/calendar";
 
 import {
@@ -13,12 +12,10 @@ import * as React from "react";
 import { FormPanel } from "~/components/calendar/form-panel";
 import { LeftPanel } from "~/components/calendar/left-panel";
 import { RightPanel } from "~/components/calendar/right-panel";
-import { useNavigate, useSearchParams } from "@remix-run/react";
+import { useSearchParams } from "@remix-run/react";
 import { TooltipProvider } from "~/components/ui/tooltip";
 import { Card } from "~/components/ui/card";
 
-
-const SampleEventType: EventType = { id: 1, title: "15 Min Meeting", url: "/15min", description: "A 15 minutes quick talk.", duration: 15, location: "skype" };
 
 export default function Page() {
   const { locale } = useLocale();
@@ -37,7 +34,7 @@ export default function Page() {
 
   const weeksInMonth = getWeeksInMonth(focusedDate as DateValue, locale);
 
-  const handleChangeDate = (date: DateValue) => {
+  const handleChangeDate = React.useCallback((date: DateValue) => {
     setDate(date as CalendarDate);
     const params = new URLSearchParams();
     params.set("date", date.toDate(timeZone).toISOString().split("T")[0]);
@@ -45,14 +42,15 @@ export default function Page() {
       preventScrollReset: true,
       replace: true,
     });
-  };
+  }, [timeZone, setSearchParams]);
 
   React.useEffect(() => {
     setShowForm(!!dateParam && !!slotParam);
     if (!dateParam) {
       handleChangeDate(date);
     }
-  }, [searchParams])
+  }, [searchParams, date, dateParam, slotParam, handleChangeDate]);
+
 
   const handleChangeAvailableTime = (time: string) => {
     const timeValue = time.split(":").join(" ");

@@ -1,4 +1,3 @@
-import { useParams } from "@remix-run/react";
 import { z } from "zod"
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/components/ui/form";
@@ -17,8 +16,6 @@ import {
 const SampleEventType: EventType = { id: 1, title: "15 Min Meeting", url: "/15min", description: "A 15 minutes quick talk.", duration: 15, location: "skype" };
 
 export default function Page() {
-  const { eventTypeId } = useParams();
-
   const data = SampleEventType;
 
   const formSchema = z.object({
@@ -135,7 +132,7 @@ export default function Page() {
                 <FormLabel>地点</FormLabel>
                 <div className="flex items-center gap-2">
                   <FormControl>
-                    <Select defaultValue={data.location}>
+                    <Select {...field}>
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>

@@ -27,7 +27,7 @@ export function LeftPanel({
 }) {
 	const { locale } = useLocale();
 
-	const [searchParams, setSearchParams] = useSearchParams();
+	const [searchParams] = useSearchParams();
 	const slotParam = searchParams.get("slot");
 
 	return (
