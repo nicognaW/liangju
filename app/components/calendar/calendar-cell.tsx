@@ -52,11 +52,11 @@ export function CalendarCell({
               : "cursor-pointer bg-gray-3",
             // Focus ring, visible while the cell has keyboard focus.
             isFocusVisible &&
-            "ring-1 group-focus:z-2 ring-gray-12 ring-offset-1",
+            "ring-1 group-focus:z-2 ring-gray-100 ring-offset-1",
             // Darker selection background for the start and end.
-            isSelected && "bg-gray-12 text-gray-1",
+            isSelected && "bg-gray-100 text-gray-1",
             // Hover state for non-selected cells.
-            !isSelected && !isDisabled && "hover:ring-2 hover:ring-gray-12",
+            !isSelected && !isDisabled && "hover:ring-2 hover:ring-gray-100",
             // isDateToday && "bg-gray-1 text-primary ring-0 ring-offset-0",
           )}
         >

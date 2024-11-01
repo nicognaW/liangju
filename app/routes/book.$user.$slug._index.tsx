@@ -27,12 +27,10 @@ export default function Page() {
   const [searchParams, setSearchParams] = useSearchParams();
   const dateParam = searchParams.get("date");
   const slotParam = searchParams.get("slot");
-  React.useEffect(() => {
-    setShowForm(!!dateParam && !!slotParam);
-  }, [searchParams])
 
   const [timeZone, setTimeZone] = React.useState("America/New_York");
   const [date, setDate] = React.useState(today(getLocalTimeZone()));
+
   const [focusedDate, setFocusedDate] = React.useState<CalendarDate | null>(
     date,
   );
@@ -45,8 +43,16 @@ export default function Page() {
     params.set("date", date.toDate(timeZone).toISOString().split("T")[0]);
     setSearchParams(params, {
       preventScrollReset: true,
+      replace: true,
     });
   };
+
+  React.useEffect(() => {
+    setShowForm(!!dateParam && !!slotParam);
+    if (!dateParam) {
+      handleChangeDate(date);
+    }
+  }, [searchParams])
 
   const handleChangeAvailableTime = (time: string) => {
     const timeValue = time.split(":").join(" ");
@@ -79,6 +85,7 @@ export default function Page() {
 
     setSearchParams(searchParams, {
       preventScrollReset: true,
+      replace: true,
     });
   };
 
