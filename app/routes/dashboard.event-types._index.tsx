@@ -56,9 +56,9 @@ export default function Page() {
               </Link>
               <div>
                 <div className="flex [&>*:first-child]:ml-0 [&>*:first-child]:rounded-l-md [&>*:first-child]:border-l [&>*:last-child]:rounded-r-md [&>a]:-ml-[1px] hover:[&>a]:z-[1] [&>button]:-ml-[1px] hover:[&>button]:z-[1] [&_a]:rounded-none [&_button]:rounded-none">
-                  <a className="rounded-l-md whitespace-nowrap items-center text-sm font-medium relative rounded-md transition disabled:cursor-not-allowed flex justify-center text-accent-foreground border border-default bg-white hover:bg-muted disabled:border-subtle disabled:bg-opacity-30 disabled:text-muted disabled:hover:bg-opacity-30 disabled:hover:text-muted disabled:hover:border-subtle disabled:hover:bg-white h-9 px-4 py-2.5 min-h-[36px] min-w-[36px] !p-2 hover:border-default" href={item.url}>
+                  <Link className="rounded-l-md whitespace-nowrap items-center text-sm font-medium relative rounded-md transition disabled:cursor-not-allowed flex justify-center text-accent-foreground border border-default bg-white hover:bg-muted disabled:border-subtle disabled:bg-opacity-30 disabled:text-muted disabled:hover:bg-opacity-30 disabled:hover:text-muted disabled:hover:border-subtle disabled:hover:bg-white h-9 px-4 py-2.5 min-h-[36px] min-w-[36px] !p-2 hover:border-default" to={item.url}>
                     <ExternalLink className="w-4 h-4" />
-                  </a>
+                  </Link>
                   <button className="whitespace-nowrap items-center text-sm font-medium relative rounded-md transition disabled:cursor-not-allowed flex justify-center text-accent-foreground border border-default bg-white hover:bg-muted disabled:border-subtle disabled:bg-opacity-30 disabled:text-muted disabled:hover:bg-opacity-30 disabled:hover:text-muted disabled:hover:border-subtle disabled:hover:bg-white h-9 px-4 py-2.5 min-h-[36px] min-w-[36px] !p-2 hover:border-default">
                     <LinkIcon className="w-4 h-4" />
                   </button>
