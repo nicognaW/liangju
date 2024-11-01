@@ -1,7 +1,11 @@
 import { Link } from "@remix-run/react";
-import { Clock, Copy, ExternalLink, LinkIcon, MoreHorizontal, Share } from "lucide-react";
+import { Clock, ExternalLink, LinkIcon, MoreHorizontal } from "lucide-react";
+import { z } from "zod";
 import { Badge } from "~/components/ui/badge"
-import { Button } from "~/components/ui/button";
+
+export const LocationValues = ["skype", "zoom", "phone"] as const;
+export const ZLocation = z.enum(LocationValues);
+type Location = z.infer<typeof ZLocation>;
 
 export interface EventType {
   id: number;
@@ -9,12 +13,13 @@ export interface EventType {
   url: string;
   description: string;
   duration: number;
+  location: Location
 }
 
 const eventTypes: EventType[] = [
-  { id: 1, title: "15 Min Meeting", url: "/15min", description: "A 15 minutes quick talk.", duration: 15, },
-  { id: 2, title: "30 Min Meeting", url: "/30min", description: "", duration: 30, },
-  { id: 3, title: "Secret Meeting", url: "/secret", description: "", duration: 15, },
+  { id: 1, title: "15 Min Meeting", url: "/15min", description: "A 15 minutes quick talk.", duration: 15, location: "skype" },
+  { id: 2, title: "30 Min Meeting", url: "/30min", description: "", duration: 30, location: "skype" },
+  { id: 3, title: "Secret Meeting", url: "/secret", description: "", duration: 15, location: "skype" },
 ];
 
 export default function Page() {
