@@ -1,5 +1,3 @@
-"use client"
-
 import { Link, useLocation } from "@remix-run/react"
 import { ChevronRight, type LucideIcon } from "lucide-react"
 
