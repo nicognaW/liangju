@@ -9,13 +9,16 @@ import {
 import type { DateValue } from "@react-aria/calendar";
 import { useLocale } from "@react-aria/i18n";
 import * as React from "react";
-import { FormPanel } from "~/components/calendar/form-panel";
 import { LeftPanel } from "~/components/calendar/left-panel";
 import { RightPanel } from "~/components/calendar/right-panel";
 import { useSearchParams } from "@remix-run/react";
 import { TooltipProvider } from "~/components/ui/tooltip";
 import { Card } from "~/components/ui/card";
 
+// Dynamically import FormPanel using a workaround for named exports
+const FormPanel = React.lazy(() =>
+  import("~/components/calendar/form-panel").then(module => ({ default: module.FormPanel }))
+);
 
 export default function Page() {
   const { locale } = useLocale();
@@ -113,7 +116,9 @@ export default function Page() {
                   />
                 </>
               ) : (
-                <FormPanel />
+                <React.Suspense fallback={<div>Loading form...</div>}>
+                  <FormPanel />
+                </React.Suspense>
               )}
             </div>
           </div>
