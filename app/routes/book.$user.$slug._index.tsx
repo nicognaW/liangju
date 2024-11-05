@@ -14,6 +14,7 @@ import { RightPanel } from "~/components/calendar/right-panel";
 import { useSearchParams } from "@remix-run/react";
 import { TooltipProvider } from "~/components/ui/tooltip";
 import { Card } from "~/components/ui/card";
+import { Skeleton } from "~/components/ui/skeleton";
 
 // Dynamically import FormPanel using a workaround for named exports
 const FormPanel = React.lazy(() =>
@@ -116,7 +117,7 @@ export default function Page() {
                   />
                 </>
               ) : (
-                <React.Suspense fallback={<div>Loading form...</div>}>
+                <React.Suspense fallback={<Skeleton className="rounded-md w-[360px] h-[488px]" />}>
                   <FormPanel />
                 </React.Suspense>
               )}
