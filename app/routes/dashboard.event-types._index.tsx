@@ -7,18 +7,17 @@ import { Input } from "~/components/ui/input";
 
 export const LocationValues = ["skype", "zoom", "phone"] as const;
 export const ZLocation = z.enum(LocationValues);
-type Location = z.infer<typeof ZLocation>;
 
-export interface EventType {
-  id: number;
-  title: string;
-  url: string;
-  description: string;
-  duration: number;
-  location: Location
-}
+export const EventTypeSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  url: z.string(),
+  description: z.string(),
+  duration: z.number(),
+  location: ZLocation,
+});
 
-const eventTypes: EventType[] = [
+export const sampleEventTypes: z.infer<typeof EventTypeSchema>[] = [
   { id: 1, title: "15 Min Meeting", url: "/book/nico/15min", description: "A 15 minutes quick talk.", duration: 15, location: "skype" },
   { id: 2, title: "30 Min Meeting", url: "/book/nico/30min", description: "", duration: 30, location: "skype" },
   { id: 3, title: "Secret Meeting", url: "/book/nico/secret", description: "", duration: 15, location: "skype" },
@@ -36,7 +35,7 @@ export default function Page() {
         <Button>创建</Button>
       </div>
       <ul className="border-subtle flex flex-col overflow-hidden rounded-md border divide-subtle !static w-full divide-y">
-        {eventTypes.map((item, index) =>
+        {sampleEventTypes.map((item, index) =>
           <li key={index}>
             <div className="hover:bg-muted p-4 group flex w-full max-w-full items-center justify-between overflow-hidden px-4 py-4 sm:px-6">
               <Link to={`/dashboard/event-types/${item.id}`} className="flex flex-col w-full">

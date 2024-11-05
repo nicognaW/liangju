@@ -4,7 +4,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod"
-import { EventType, LocationValues, ZLocation } from "./dashboard.event-types._index";
+import { EventTypeSchema, LocationValues, ZLocation } from "./dashboard.event-types._index";
 import {
   Select,
   SelectContent,
@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "~/components/ui/select"
 
-const SampleEventType: EventType = { id: 1, title: "15 Min Meeting", url: "/15min", description: "A 15 minutes quick talk.", duration: 15, location: "skype" };
+const SampleEventType: z.infer<typeof EventTypeSchema> = { id: 1, title: "15 Min Meeting", url: "/15min", description: "A 15 minutes quick talk.", duration: 15, location: "skype" };
 
 export default function Page() {
   const data = SampleEventType;
