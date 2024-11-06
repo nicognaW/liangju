@@ -1,7 +1,8 @@
 import { OpenAPIHono, z } from '@hono/zod-openapi'
 import { apiReference } from '@scalar/hono-api-reference'
 import { sampleEventTypes } from '~/routes/dashboard.event-types._index';
-import { eventTypeSchema ,
+import {
+  eventTypeSchema,
   operationResultSchema as operationResultSchemaPrimitive,
   validationErrorSchema as validationErrorSchemaPrimitive,
 } from "~/lib/schemas";
@@ -9,6 +10,7 @@ import { registerEventTypesAPIs } from './event-types';
 import { Env } from 'hono/types';
 import { cors } from 'hono/cors'
 
+export type APP = OpenAPIHono<Env, NonNullable<unknown>, "/">;
 const operationResultSchema = operationResultSchemaPrimitive.openapi("操作结果", {})
 const validationErrorSchema = validationErrorSchemaPrimitive.openapi("请求数据验证错误", {});
 
@@ -44,7 +46,7 @@ sampleEventTypes.forEach((value) => {
   inMemDB.EventType.push(structuredClone(value));
 })
 
-export const app = new OpenAPIHono({
+const app = new OpenAPIHono({
   defaultHook: (result, c) => {
     if (!result.success) {
       return c.json(
@@ -66,8 +68,6 @@ app.use('*', cors({
 
 registerEventTypesAPIs(app);
 
-export type APP = OpenAPIHono<Env, NonNullable<unknown>, "/">;
-
 app
   .doc31('/openapi.json', { openapi: '3.1.0', info: { title: '两句', version: '1' } })
   .get('/reference', apiReference({ pageTitle: "两句 API", spec: { url: '/openapi.json' } }));
@@ -75,4 +75,4 @@ app
 export default {
   ...app,
   port: 10011,
-} 
+}

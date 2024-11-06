@@ -1,4 +1,4 @@
-import { unknown, z } from 'zod'
+import { z } from 'zod'
 import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
 import { eventTypeSchema, operationResultSchema } from "./schemas"
