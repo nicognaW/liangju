@@ -21,7 +21,7 @@ async function fetchAPI<RP, RQ = unknown>(
 ): Promise<RP> {
   const { addr } = useAPIStore.getState();
   const options: RequestInit = {
-    method: bodyData ? "POST" : "GET",
+    method: bodyData ? "POST" : (init?.method ?? "GET"),
     headers: bodyData ? { "Content-Type": "application/json" } : undefined,
     body: bodyData ? JSON.stringify(bodyData) : undefined,
     ...init,
@@ -37,9 +37,12 @@ export async function listEventTypes() {
   return fetchAPI("/event-types", z.array(eventTypeSchema));
 }
 
-
 export async function newEventType() {
   return fetchAPI("/create-event-type", operationResultSchema, {
     method: "POST",
   });
+}
+
+export async function deleteEventType(id: string) {
+  return fetchAPI("/delete-event-types", operationResultSchema, {}, { id });
 }

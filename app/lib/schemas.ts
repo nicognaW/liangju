@@ -16,10 +16,10 @@ export const LocationValues = ["skype", "zoom", "phone"] as const;
 export const ZLocation = z.enum(LocationValues);
 
 export const eventTypeSchema = z.object({
-  id: z.number(),
+  id: z.coerce.number(),
   title: z.string(),
   url: z.string(),
   description: z.string(),
-  duration: z.number(),
+  duration: z.coerce.number(),
   location: ZLocation,
 });

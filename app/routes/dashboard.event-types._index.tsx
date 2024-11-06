@@ -1,5 +1,5 @@
 import { Form, Link, useLoaderData } from "@remix-run/react";
-import { Clock, ExternalLink, LinkIcon, MoreHorizontal } from "lucide-react";
+import { Clock, Delete, ExternalLink, LinkIcon, MoreHorizontal } from "lucide-react";
 import { z } from "zod";
 import { Badge } from "~/components/ui/badge"
 import { Button } from "~/components/ui/button";
@@ -58,9 +58,11 @@ export default function Page() {
                   <button disabled className="disabled:text-neutral-400 disabled:hover:text-neutral-400 whitespace-nowrap items-center text-sm font-medium relative rounded-md transition disabled:cursor-not-allowed flex justify-center text-accent-foreground border border-default bg-white hover:bg-muted disabled:border-subtle disabled:bg-opacity-30 disabled:text-muted disabled:hover:bg-opacity-30 disabled:hover:text-muted disabled:hover:border-subtle disabled:hover:bg-white h-9 px-4 py-2.5 min-h-[36px] min-w-[36px] !p-2 hover:border-default">
                     <LinkIcon className="w-4 h-4" />
                   </button>
-                  <button disabled className="disabled:text-neutral-400 disabled:hover:text-neutral-400 whitespace-nowrap items-center text-sm font-medium relative rounded-md transition disabled:cursor-not-allowed flex justify-center text-accent-foreground border border-default bg-white hover:bg-muted disabled:border-subtle disabled:bg-opacity-30 disabled:text-muted disabled:hover:bg-opacity-30 disabled:hover:text-muted disabled:hover:border-subtle disabled:hover:bg-white h-9 px-4 py-2.5 min-h-[36px] min-w-[36px] !p-2 hover:border-default">
-                    <MoreHorizontal className="w-4 h-4" />
-                  </button>
+                  <Form action={`${item.id}/delete`} method="post" navigate={false}>
+                    <button className="disabled:text-neutral-400 disabled:hover:text-neutral-400 whitespace-nowrap items-center text-sm font-medium relative rounded-md transition disabled:cursor-not-allowed flex justify-center text-accent-foreground border border-default bg-white hover:bg-destructive hover:text-destructive-foreground disabled:border-subtle disabled:bg-opacity-30 disabled:text-muted disabled:hover:bg-opacity-30 disabled:hover:text-muted disabled:hover:border-subtle disabled:hover:bg-white h-9 px-4 py-2.5 min-h-[36px] min-w-[36px] !p-2 hover:border-default">
+                      <Delete className="w-4 h-4" />
+                    </button>
+                  </Form>
                 </div>
               </div>
             </div>
