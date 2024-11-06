@@ -1,4 +1,4 @@
-import { ClientLoaderFunctionArgs, Form, Link, useLoaderData } from "@remix-run/react";
+import { ClientLoaderFunctionArgs, Form, Link, useLoaderData, useRouteError } from "@remix-run/react";
 import { Clock, Delete, ExternalLink, LinkIcon } from "lucide-react";
 import { z } from "zod";
 import { Badge } from "~/components/ui/badge"
@@ -17,6 +17,15 @@ export const sampleEventTypes: z.infer<typeof eventTypeSchema>[] = [
 export const clientLoader = async (_: ClientLoaderFunctionArgs): Promise<Awaited<ReturnType<typeof listEventTypes>>> => {
   return listEventTypes();
 };
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  if (!(error instanceof Error)) {
+    return <>Unknown error</>
+  }
+  console.error(error);
+  return <div className="w-full h-full flex items-center justify-center">错误： {error.message}，请检查你的后端URL设置。</div>;
+}
 
 export default function Page() {
   const data = useLoaderData<typeof clientLoader>();
