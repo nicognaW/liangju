@@ -1,10 +1,10 @@
-import { Link, useLoaderData, useRevalidator } from "@remix-run/react";
+import { Form, Link, useLoaderData } from "@remix-run/react";
 import { Clock, ExternalLink, LinkIcon, MoreHorizontal } from "lucide-react";
 import { z } from "zod";
 import { Badge } from "~/components/ui/badge"
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-import { listEventTypes, newEventType } from "~/lib/api";
+import { listEventTypes } from "~/lib/api";
 import { eventTypeSchema } from "~/lib/schemas";
 
 export const sampleEventTypes: z.infer<typeof eventTypeSchema>[] = [
@@ -14,14 +14,11 @@ export const sampleEventTypes: z.infer<typeof eventTypeSchema>[] = [
 ];
 
 export const clientLoader = async (): Promise<Awaited<ReturnType<typeof listEventTypes>>> => {
-  const data = listEventTypes();
-  return data;
+  return listEventTypes();
 };
-
 
 export default function Page() {
   const data = useLoaderData<typeof clientLoader>();
-  const revalidator = useRevalidator();
 
   return (
     <div className="px-2 lg:px-6 space-y-4">
@@ -30,13 +27,9 @@ export default function Page() {
           placeholder="搜索"
           className="max-w-sm"
         />
-        <Button onClick={(e) => {
-          e.preventDefault();
-          newEventType().then(() => {
-            // TODO: use clientAction
-            revalidator.revalidate();
-          });
-        }}>创建</Button>
+        <Form action="new" method="post">
+          <Button type="submit">创建</Button>
+        </Form>
       </div>
       <ul className="border-subtle flex flex-col overflow-hidden rounded-md border divide-subtle !static w-full divide-y">
         {data.map((item, index) =>
