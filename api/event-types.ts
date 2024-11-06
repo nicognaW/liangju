@@ -41,7 +41,7 @@ export const registerEventTypesAPIs = (app: APP) => {
       responses: operationResponse,
     }),
       (c) => {
-        const id = inMemDB.EventType.length + 2;
+        const id = inMemDB.EventType.length + 1;
         inMemDB.EventType.push({
           id,
           description: '',
