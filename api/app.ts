@@ -3,6 +3,8 @@ import { apiReference } from '@scalar/hono-api-reference'
 import { EventTypeSchema, sampleEventTypes } from '~/routes/dashboard.event-types._index';
 import { registerEventTypesAPIs } from './event-types';
 import { Env } from 'hono/types';
+import { cors } from 'hono/cors'
+
 
 const operationResultSchema = z.object({
   success: z.boolean()
@@ -61,10 +63,22 @@ export const app = new OpenAPIHono({
   },
 });
 
+app.use('*', cors({
+  origin: '*',
+  allowMethods: ['POST', 'GET', 'OPTIONS'],
+  exposeHeaders: ['Content-Length'],
+  credentials: true,
+}))
+
 registerEventTypesAPIs(app);
 
 export type APP = OpenAPIHono<Env, NonNullable<unknown>, "/">;
 
-export default app
+app
   .doc31('/openapi.json', { openapi: '3.1.0', info: { title: '两句', version: '1' } })
   .get('/reference', apiReference({ pageTitle: "两句 API", spec: { url: '/openapi.json' } }));
+
+export default {
+  ...app,
+  port: 10011,
+} 

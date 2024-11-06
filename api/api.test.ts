@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest';
-import app from './index';
+import app from './app';
 import { sampleEventTypes } from '~/routes/dashboard.event-types._index';
 
 const MOCK_ENV = {

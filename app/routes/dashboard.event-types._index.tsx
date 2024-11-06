@@ -1,9 +1,11 @@
 import { Link } from "@remix-run/react";
 import { Clock, ExternalLink, LinkIcon, MoreHorizontal } from "lucide-react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 import { Badge } from "~/components/ui/badge"
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
+import { listEventTypes } from "~/lib/api";
 
 export const LocationValues = ["skype", "zoom", "phone"] as const;
 export const ZLocation = z.enum(LocationValues);
@@ -24,6 +26,23 @@ export const sampleEventTypes: z.infer<typeof EventTypeSchema>[] = [
 ];
 
 export default function Page() {
+  const [eventTypes, setEventTypes] = useState<Awaited<ReturnType<typeof listEventTypes>>>([]);
+  useEffect(() => {
+    let ignore = false;
+
+    async function startFetching() {
+      const data = await listEventTypes();
+      if (!ignore) {
+        setEventTypes(data);
+      }
+    }
+
+    startFetching();
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
 
   return (
     <div className="px-2 lg:px-6 space-y-4">
@@ -35,7 +54,7 @@ export default function Page() {
         <Button>创建</Button>
       </div>
       <ul className="border-subtle flex flex-col overflow-hidden rounded-md border divide-subtle !static w-full divide-y">
-        {sampleEventTypes.map((item, index) =>
+        {eventTypes.map((item, index) =>
           <li key={index}>
             <div className="hover:bg-muted p-4 group flex w-full max-w-full items-center justify-between overflow-hidden px-4 py-4 sm:px-6">
               <Link to={`/dashboard/event-types/${item.id}`} className="flex flex-col w-full">

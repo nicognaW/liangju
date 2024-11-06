@@ -1,5 +1,5 @@
 import { createRoute, z } from '@hono/zod-openapi'
-import { APP, inMemDB, operationResponse, validationResponse } from 'api';
+import { APP, inMemDB, operationResponse, validationResponse } from 'api/app';
 import {
   EventTypeSchema as EventTypeSchemaPrimitive,
   sampleEventTypes,
