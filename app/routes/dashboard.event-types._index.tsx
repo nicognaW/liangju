@@ -1,5 +1,5 @@
-import { Form, Link, useLoaderData } from "@remix-run/react";
-import { Clock, Delete, ExternalLink, LinkIcon, MoreHorizontal } from "lucide-react";
+import { ClientLoaderFunctionArgs, Form, Link, useLoaderData } from "@remix-run/react";
+import { Clock, Delete, ExternalLink, LinkIcon } from "lucide-react";
 import { z } from "zod";
 import { Badge } from "~/components/ui/badge"
 import { Button } from "~/components/ui/button";
@@ -13,7 +13,8 @@ export const sampleEventTypes: z.infer<typeof eventTypeSchema>[] = [
   { id: 3, title: "Secret Meeting", url: "/book/nico/secret", description: "", duration: 15, location: "skype" },
 ];
 
-export const clientLoader = async (): Promise<Awaited<ReturnType<typeof listEventTypes>>> => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const clientLoader = async (_: ClientLoaderFunctionArgs): Promise<Awaited<ReturnType<typeof listEventTypes>>> => {
   return listEventTypes();
 };
 

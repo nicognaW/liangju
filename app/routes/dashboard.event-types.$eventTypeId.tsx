@@ -4,7 +4,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod"
-import { LocationValues, ZLocation , eventTypeSchema } from "~/lib/schemas";
+import { LocationValues, ZLocation, eventTypeSchema } from "~/lib/schemas";
 import {
   Select,
   SelectContent,
@@ -12,38 +12,47 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select"
+import { useSubmit, Form as RemixForm, ClientLoaderFunctionArgs, useLoaderData } from "@remix-run/react";
+import { listEventTypes } from "~/lib/api";
 
-const SampleEventType: z.infer<typeof eventTypeSchema> = { id: 1, title: "15 Min Meeting", url: "/15min", description: "A 15 minutes quick talk.", duration: 15, location: "skype" };
+export const clientLoader = async ({ params }: ClientLoaderFunctionArgs): Promise<z.infer<typeof eventTypeSchema> | undefined> => {
+  const { eventTypeId } = params;
+  const all = await listEventTypes();
+  return all.find((item) => item.id.toString().trim() === eventTypeId);
+};
 
 export default function Page() {
-  const data = SampleEventType;
+  const submit = useSubmit();
+  const data = useLoaderData<typeof clientLoader>();
 
-  const formSchema = z.object({
-    id: z.number().gt(0),
+  const formSchema = eventTypeSchema.extend({
+    id: z.coerce.number().gt(0),
     title: z.string().min(1),
-    url: z.string().min(2).startsWith("/"),
-    description: z.string().min(0),
+    url: z.string().min(2).startsWith("/").transform((before) => `/book/nico${before}`),
+    description: z.string(),
     duration: z.coerce.number().gt(5),
     location: ZLocation,
-  })
+  });
 
-  // 1. Define your form.
+  const prefix = "/book/nico";
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       ...data,
+      url: data?.url && data.url.startsWith(prefix) ? data.url.slice(prefix.length) : data?.url,
     }
   })
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
-  }
-
   return <Form {...form}>
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+    <RemixForm onSubmit={form.handleSubmit((values: z.infer<typeof formSchema>) => {
+      submit(values, {
+        action: "edit",
+        method: "post",
+        encType: "application/json",
+      });
+      console.log(values)
+
+    })} className="space-y-4">
       <div className="max-w-full px-2 py-4 lg:px-6 space-y-4">
         <div className="flex justify-between">
           <h2 className="text-2xl sm:px-4">编辑</h2>
@@ -86,7 +95,7 @@ export default function Page() {
                   <div className="border-default h-9 border px-3 transition bg-accent rounded-l-md">
                     <div className="min-h-9 flex flex-col justify-center text-sm leading-7">
                       <span className="flex max-w-2xl overflow-y-auto whitespace-nowrap">
-                        cal.com/nico-ng/
+                        /book/nico
                       </span>
                     </div>
                   </div>
@@ -131,16 +140,18 @@ export default function Page() {
               <FormItem>
                 <FormLabel>地点</FormLabel>
                 <div className="flex items-center gap-2">
-                  <FormControl>
-                    <Select {...field}>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent>
-                        {LocationValues.map((value, index) => <SelectItem key={index} value={value}>{value.charAt(0).toUpperCase() + value.slice(1)}</SelectItem>)}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
+                    </FormControl>
+                    <SelectContent>
+                      {LocationValues.map((value, index) =>
+                        <SelectItem key={index} value={value}>{value.charAt(0).toUpperCase() + value.slice(1)}</SelectItem>
+                      )}
+                    </SelectContent>
+                  </Select>
                 </div>
                 <FormMessage />
               </FormItem>
@@ -148,6 +159,6 @@ export default function Page() {
           />
         </div>
       </div>
-    </form>
+    </RemixForm>
   </Form >;
 }

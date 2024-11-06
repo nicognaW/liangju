@@ -13,17 +13,17 @@ export const useAPIStore = create<{
   }), { name: "api" }
 )))
 
-async function fetchAPI<RP, RQ = unknown>(
+async function fetchAPI<RP>(
   path: string,
   schema: z.Schema<RP>,
   init?: RequestInit,
-  bodyData?: RQ,
+  bodyData?: BodyInit,
 ): Promise<RP> {
   const { addr } = useAPIStore.getState();
   const options: RequestInit = {
     method: bodyData ? "POST" : (init?.method ?? "GET"),
     headers: bodyData ? { "Content-Type": "application/json" } : undefined,
-    body: bodyData ? JSON.stringify(bodyData) : undefined,
+    body: bodyData,
     ...init,
   };
   const resp = await fetch(new URL(path, addr), options);
@@ -44,5 +44,10 @@ export async function newEventType() {
 }
 
 export async function deleteEventType(id: string) {
-  return fetchAPI("/delete-event-types", operationResultSchema, {}, { id });
+  return fetchAPI("/delete-event-types", operationResultSchema, {}, JSON.stringify({ id }));
+}
+
+
+export async function editEventType(data: z.infer<typeof eventTypeSchema>) {
+  return fetchAPI("/update-event-types", operationResultSchema, {}, JSON.stringify(data));
 }
