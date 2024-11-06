@@ -1,9 +1,9 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { APP, inMemDB, operationResponse, validationResponse } from 'api/app';
 import {
-  EventTypeSchema as EventTypeSchemaPrimitive,
   sampleEventTypes,
 } from '~/routes/dashboard.event-types._index';
+import { eventTypeSchema as EventTypeSchemaPrimitive } from "~/lib/schemas";
 
 const EventTypeSchema = EventTypeSchemaPrimitive.openapi("EventType", {
   examples: sampleEventTypes

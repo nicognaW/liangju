@@ -1,28 +1,22 @@
 import { OpenAPIHono, z } from '@hono/zod-openapi'
 import { apiReference } from '@scalar/hono-api-reference'
-import { EventTypeSchema, sampleEventTypes } from '~/routes/dashboard.event-types._index';
+import { sampleEventTypes } from '~/routes/dashboard.event-types._index';
+import { eventTypeSchema ,
+  operationResultSchema as operationResultSchemaPrimitive,
+  validationErrorSchema as validationErrorSchemaPrimitive,
+} from "~/lib/schemas";
 import { registerEventTypesAPIs } from './event-types';
 import { Env } from 'hono/types';
 import { cors } from 'hono/cors'
 
-
-const operationResultSchema = z.object({
-  success: z.boolean()
-}).openapi("操作结果", {})
-
-const ValidationErrorSchema = z.object({
-  error: z.object({
-    target: z.unknown(),
-    success: z.literal(false),
-    error: z.unknown(),
-  }),
-}).optional().openapi("请求数据验证错误", {});
+const operationResultSchema = operationResultSchemaPrimitive.openapi("操作结果", {})
+const validationErrorSchema = validationErrorSchemaPrimitive.openapi("请求数据验证错误", {});
 
 export const validationResponse = {
   400: {
     content: {
       'application/json': {
-        schema: ValidationErrorSchema,
+        schema: validationErrorSchema,
       },
     },
     description: 'Validation error',
@@ -41,7 +35,7 @@ export const operationResponse = {
 }
 
 export const inMemDB: {
-  EventType: z.infer<typeof EventTypeSchema>[],
+  EventType: z.infer<typeof eventTypeSchema>[],
 } = {
   EventType: [],
 };

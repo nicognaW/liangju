@@ -6,20 +6,9 @@ import { Badge } from "~/components/ui/badge"
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { listEventTypes } from "~/lib/api";
+import { eventTypeSchema } from "~/lib/schemas";
 
-export const LocationValues = ["skype", "zoom", "phone"] as const;
-export const ZLocation = z.enum(LocationValues);
-
-export const EventTypeSchema = z.object({
-  id: z.number(),
-  title: z.string(),
-  url: z.string(),
-  description: z.string(),
-  duration: z.number(),
-  location: ZLocation,
-});
-
-export const sampleEventTypes: z.infer<typeof EventTypeSchema>[] = [
+export const sampleEventTypes: z.infer<typeof eventTypeSchema>[] = [
   { id: 1, title: "15 Min Meeting", url: "/book/nico/15min", description: "A 15 minutes quick talk.", duration: 15, location: "skype" },
   { id: 2, title: "30 Min Meeting", url: "/book/nico/30min", description: "", duration: 30, location: "skype" },
   { id: 3, title: "Secret Meeting", url: "/book/nico/secret", description: "", duration: 15, location: "skype" },
@@ -51,7 +40,7 @@ export default function Page() {
           placeholder="搜索"
           className="max-w-sm"
         />
-        <Button>创建</Button>
+        <Button >创建</Button>
       </div>
       <ul className="border-subtle flex flex-col overflow-hidden rounded-md border divide-subtle !static w-full divide-y">
         {eventTypes.map((item, index) =>
