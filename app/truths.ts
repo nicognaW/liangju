@@ -1,4 +1,4 @@
-import { Calendar, Copy, ExternalLink, Link, LucideIcon, Settings } from "lucide-react";
+import { Calendar, Copy, ExternalLink, Link, LucideIcon } from "lucide-react";
 
 export const navTitles: {
   [K in typeof navMain[number]['url']]: string;
@@ -35,11 +35,6 @@ export const navSecondary: {
       title: "复制公共页面链接",
       url: "#",
       icon: Copy
-    },
-    {
-      title: "设置",
-      url: "#",
-      icon: Settings
     }
   ]
 

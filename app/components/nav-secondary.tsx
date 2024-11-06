@@ -8,6 +8,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "~/components/ui/sidebar"
+import { Settings } from "./nav-settings"
 
 export function NavSecondary({
   items,
@@ -36,8 +37,11 @@ export function NavSecondary({
               </SidebarMenuButton>}
             </SidebarMenuItem>
           ))}
+          <SidebarMenuItem>
+            <Settings />
+          </SidebarMenuItem>
         </SidebarMenu>
       </SidebarGroupContent>
-    </SidebarGroup>
+    </SidebarGroup >
   )
 }
